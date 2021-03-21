@@ -1,6 +1,8 @@
 # ReportCrypto
 
 
+![alt text](https://github.com/adel-saada/ReportCrypto/blob/main/logo_project.PNG?raw=true)
+
 ## How To Use ##
 
 1. Clone the repository
