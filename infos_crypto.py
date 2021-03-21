@@ -16,9 +16,15 @@ GMAIL_PASSWORD = os.environ.get('GMAIL_PASSWORD')
 GMAIL_ADRESS = os.environ.get('GMAIL_ADRESS')
 PORT=587
 
+# List of email(s) that will receive the report
+# By Default, the sender
+# example : TO_LIST_MAILS = [frederic@yahoo.fr,john@my-mail.com] 
+TO_LIST_MAILS = [GMAIL_ADRESS]
+
+
 import csv
 
-# dict possessions crypto (nombre de pièce et cout investissement)
+# dict possessions crypto (numbers pieces and invest cost)
 
 POSSESSIONS={}
 
@@ -27,20 +33,20 @@ with open('possession.csv','r') as file:
     for row in reader:
         POSSESSIONS[row[0]] = [float(row[1]),int(row[2])]
 
-# Objectif : Connection à l'API et retour des prix des crypto avec la devise euros (dict)
+# Goal : Connection to API and return prices of crypto with EUR currency (dict)
 def dict_crypto():
     cg = CoinGeckoAPI()
     list_crypto = [key for key in POSSESSIONS.keys()]
     return cg.get_price(ids=list_crypto, vs_currencies='eur')
 
 
-# Tri dictionnaire pour garder un ordre
+# Ordered dictionnary (more plaisant with each email report)
 cryptos = OrderedDict(sorted(dict_crypto().items(),key=lambda t: t[0]))
 
 contents = ""
 total_benefices = float(0)
 
-# Calcul montant_total, benefices... et remplissage code html
+# Calculation of amounts, benefits... and puts in HTML code
 for key,values in cryptos.items():
     name = key
     value = float(values["eur"])
@@ -155,7 +161,7 @@ def mail(html_str):
     with smtplib.SMTP('smtp.gmail.com',587) as server:
         server.starttls()
         server.login(GMAIL_ADRESS,GMAIL_PASSWORD)
-        server.sendmail(GMAIL_ADRESS,GMAIL_ADRESS,message.as_string() )
+        server.sendmail(GMAIL_ADRESS,TO_LIST_MAILS,message.as_string() )
 
 
 
