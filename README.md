@@ -71,9 +71,9 @@ GMAIL_ADRESS='<your_gmail_adress>'
 "pundi-x"|0.127|10
 ```
 
-9. Run script
+9. Run script with in parameter your file csv
 ```bash
-./infos_crypto.py
+./infos_crypto.py --file possession.csv
 ```
 
 10. [OPTIONAL] Add Crontab
@@ -84,5 +84,5 @@ crontab -e
 ```
 #Script Crypto Informations
 SHELL=/bin/bash
-0 9,21 * * * cd /home/your/path/report_crypto/ && ./botenv/bin/python3 ./infos_crypto.py
+0 9,21 * * * cd /home/your/path/report_crypto/ && ./botenv/bin/python3 ./infos_crypto.py --file possession.csv
 ```
